@@ -1,6 +1,7 @@
 # ALX RCSwitch PI UI
 
 Control your RC switches from your Smartphone or any browser via a nice UI.
+[![Youtube](images/youtube.jpg)](http://www.youtube.com/watch?v=QJ_aKxP8cVo)
 
 ## Folder Structure
 
