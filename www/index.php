@@ -216,6 +216,15 @@ $(document).ready(function() {
 </head>
 <body>
 
+<?
+if(!file_exists("libs/")) {
+  shell_exec("./downloadDependencies.sh 2>&1");
+  if(!file_exists("libs/")) {
+    echo "<b>Could not execute downloadDependencies.sh! Please <code>chmod +x</code>.</b><br>";
+  }
+}
+?>
+
 <table>
 
 <!--tr><td colspan="2">
