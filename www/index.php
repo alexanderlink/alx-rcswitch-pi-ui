@@ -168,6 +168,7 @@ function setStatusImage(shortId, status) {
 
 var sleep = 1000;
 
+//TODO: make this configurable
 function actionVorSchlafen() {
   var timer = 0;
   schalte("s1", 1, timer+=sleep);
@@ -221,13 +222,14 @@ $(document).ready(function() {
   <div id="notice">  </div>
 </td></tr-->
 
+<!-- TODO: configurable -->
 <tr><td colspan="4" align="center">
   <table><tr><td>
-	<a class="button" href="javascript:actionVorSchlafen()">Bett</a>
+	<a class="button" href="javascript:actionVorSchlafen()">Bed</a>
   </td><td>	
-	<a class="button" href="javascript:actionSchlafen()">Schlafen</a>
+	<a class="button" href="javascript:actionSchlafen()">Sleep</a>
   </td><td>
-    <a class="button" href="javascript:actionAufstehen()">Alles aus</a> 
+    <a class="button" href="javascript:actionAufstehen()">All Off</a> 
   </td></tr></table>
 </td></tr>
 
