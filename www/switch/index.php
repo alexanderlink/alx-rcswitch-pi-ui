@@ -30,11 +30,20 @@ foreach ($switchList as $i => $powerSwitch) {
 	$switches[$powerSwitch->shortId] = $powerSwitch;
 }
 
-$method =  $_SERVER['REQUEST_METHOD'];
-echo $method.":";
+//$method =  $_SERVER['REQUEST_METHOD'];
+$method = "";
+if(isset($_GET["method"])) $method = $_GET["method"];
+
+$json = "";
+if(isset($_GET["json"])) $json = $_GET["json"];
 
 $content = file_get_contents('php://input');
-echo "'".$content."':";
+
+//echo "Method:".$method."<br>";
+//echo "Content:".$content."<br>";
+//echo "JSON:".$json."<br>";
+
+if($content == "") $content = $json;
 
 if($method == "GET") {
 	echo json_encode($switches);

@@ -23,17 +23,20 @@ function send(method) {
   }
 
   if(method == "GET") {
-    xmlhttp.open("GET","http://raspi/switch", true);
+    xmlhttp.open("GET","switch?method=GET", true);
     xmlhttp.send();
   } else if(method == "PUT") {
-    xmlhttp.open("PUT","switch", true);
+    //TODO: Using "PUT" results in confirmation popup in Firefox. Therefore using GET with parameters.
+	var json = JSON.stringify({shortId:"w1", state:"1"});
+    xmlhttp.open("GET","switch?method=PUT&json="+encodeURI(json), true);
     xmlhttp.setRequestHeader("Content-type","application/json");
-    xmlhttp.send(JSON.stringify({shortId:"w1", state:"1"}));
+    xmlhttp.send();
   } else if(method == "POST") {
-    //TODO: Does not work! Result is GET with empty content!
-    xmlhttp.open("POST", "http://raspi/switch", true);
+    //TODO: Using "POST" does not work! Result is GET with empty content! Therefore using GET with parameters.
+	var json = JSON.stringify({shortId:"w1", state:"1"});
+    xmlhttp.open("GET", "switch?method=POST&json="+encodeURI(json), true);
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.send(JSON.stringify({shortId:"w1", state:"1"}));
+    xmlhttp.send();
   }
 }
   </script>
