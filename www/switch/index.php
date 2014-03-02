@@ -46,15 +46,26 @@ $content = file_get_contents('php://input');
 if($content == "") $content = $json;
 
 if($method == "GET") {
+  $id = "";
+  if(isset($_GET["id"])) $id = $_GET["id"];
+  if($id != "") {
+    echo json_encode($switches[$id]);
+  } else {
 	echo json_encode($switches);
+  }
 	
 } else if($method == "PUT") {
-	$obj = json_decode($content);
-	echo "Switching shortId=".$obj->shortId." to ".$obj->state;
+  $targetSwitch = json_decode($content);
+  $powerSwitch = $switches[$targetSwitch->shortId];
+  $command = "sudo /home/pi/rcswitch-pi/send  ".$powerSwitch->homecode." ".$powerSwitch->groupcode." ".$powerSwitch->devicecode." ".$targetSwitch->state." 2>&1";
+  echo $command;
+  $result = shell_exec($command);
+  shell_exec("echo ".$powerSwitch->state." > ".$targetSwitch->shortId);
+  return "xxx"+$result;
 
 } else if($method == "POST") {
-	$obj = json_decode($content);
-	echo "Creating shortId=".$obj->shortId;
+	$powerSwitch = json_decode($content);
+	echo "Creating not supported yet";
 	
 }
 
