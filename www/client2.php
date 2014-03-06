@@ -28,33 +28,6 @@
   
   <script language="javascript">
 
-  function enableIPhoneStyle(boxId) {
-    $(":checkbox#"+boxId).iphoneStyle({
-      onChange: function(elem, value) { 
-        log("enableIPhoneStyles-trigger", elem+", "+value);
-        setStatusImage(elem.attr("id"), 2);
-        switchSwitch(elem.attr("id"), (value == true ? 1 : 0), function(xmlhttp) { switchSwitched(xmlhttp.responseText); });
-      }
-    });
-  }
-  
-  function renderSwitch(sw) {
-    log("renderSwitch", sw);
-	$("#switchTable").append(
-	"<tr><td>"+
-	"<img src='images/"+sw.room+".png'/>"+
-	"</td><td class='title' style='vertical-align:middle'>"+
-	"<label style='vertical-align:middle' for='"+sw.shortId+"'>"+sw.name+"</label>"+
-	"</td><td>"+
-	"<img id='"+sw.shortId+"_status' src='images/led_yellow.png'/>"+
-	"</td><td style='padding-right:10px; vertical-align:middle'>"+
-	"<input type='checkbox' id='"+sw.shortId+"'/>"+
-	"</td></tr>"
-	);
-	enableIPhoneStyle(sw.shortId);
-	setStatusImage(sw.shortId, sw.state);
-  }
-  
   function setStatusImage(shortId, status) {
     log("setStatusImage", "id:"+shortId+", status:"+status);
     var checked = ""
@@ -80,6 +53,23 @@
     var sw = JSON.parse(switchJson);
     setStatusImage(sw.shortId, sw.state);
   }
+
+  function renderSwitch(sw) {
+    log("renderSwitch", sw);
+	$("#switchTable").append(
+	"<tr><td>"+
+	"<img src='images/"+sw.room+".png'/>"+
+	"</td><td class='title' style='vertical-align:middle'>"+
+	"<label style='vertical-align:middle' for='"+sw.shortId+"'>"+sw.name+"</label>"+
+	"</td><td>"+
+	"<img id='"+sw.shortId+"_status' src='images/led_yellow.png'/>"+
+	"</td><td style='padding-right:10px; vertical-align:middle'>"+
+	"<input type='checkbox' id='"+sw.shortId+"'/>"+
+	"</td></tr>"
+	);
+	enableIPhoneStyle(sw.shortId);
+	setStatusImage(sw.shortId, sw.state);
+  }
   
   function renderSwitches() {
     log("renderSwitches");
@@ -90,9 +80,24 @@
     });
   }
   
+  function renderAutomation(auto) {
+    log("renderAutomation", auto);
+	$("#automationRow").append("<td><a class='button' href='javascript:xxx()'>"+auto.name+"</a></td>");
+  }
+  
+  function renderAutomations() {
+    log("renderAutomations");
+	sendGet("switchAutomation", "", function(xmlhttp) {
+		log("renderAutomations", xmlhttp.responseText);
+		$("#switchTable").append("<tr><td colspan='4' align='center'><table><tr id='automationRow'></tr></table></td></tr>");
+		var switches = JSON.parse(xmlhttp.responseText);
+		jQuery.each(switches, function(i, val) { renderAutomation(val); });
+    });
+  }
   
   $(document).ready(function() {
     log("ready");
+	renderAutomations();
     renderSwitches();
   });
 
@@ -102,18 +107,6 @@
 <body>
 
 <table id="switchTable">
-
-<!-- TODO: configurable -->
-<tr><td colspan="4" align="center">
-  <table><tr><td>
-	<a class="button" href="javascript:actionVorSchlafen()">Bed</a>
-  </td><td>	
-	<a class="button" href="javascript:actionSchlafen()">Sleep</a>
-  </td><td>
-    <a class="button" href="javascript:actionAufstehen()">All Off</a> 
-  </td></tr></table>
-</td></tr>
-
 </table>
 
 </body>

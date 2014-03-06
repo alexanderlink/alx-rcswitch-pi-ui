@@ -59,4 +59,24 @@ class PowerSwitch
 
 }
 
+class SwitchAutomation
+{
+	public $name;
+	public $switchArray;
+	public $stateArray;
+
+	public function __construct() {
+    }
+
+    public static function newAutomation($name, $switchArray, $stateArray) {
+		$instance = new self();
+		$instance->name = $name;
+		$instance->switchArray = $switchArray;
+		$instance->stateArray = $stateArray;
+    	return $instance;
+    }
+
+
+}
+
 ?>

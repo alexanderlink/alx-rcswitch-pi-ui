@@ -30,5 +30,20 @@ $switchList = array(
   PowerSwitch::newDIP("s2", "Recharger", "bedroom", "00001", 3),
   PowerSwitch::newIntertechno("k1", "Water Boiler", "kitchen", "b", 1, 1)
 );
+
+$switchAutomationList = array(
+  SwitchAutomation::newAutomation("BedX",
+	array("w1", "w2", "w3", "s1", "s2", "k1"),
+	array(0, 0, 0, 1, 1, 0)
+  ), 
+  SwitchAutomation::newAutomation("SleepX",
+	array("w1", "w2", "w3", "s1", "s2", "k1"),
+	array(0, 0, 0, 0, 1, 0)
+  ),
+  SwitchAutomation::newAutomation("All OffX",
+	array("w1", "w2", "w3", "s1", "s2", "k1"),
+	array(0, 0, 0, 0, 0, 0)
+  )  
+);
   
 ?>

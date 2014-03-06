@@ -71,3 +71,13 @@ function switchSwitch(shortId, state, funct) {
   var json = JSON.stringify({shortId:shortId, state:state});
   send("PUT", funct, "switch", "json="+json);
 }
+
+  function enableIPhoneStyle(boxId) {
+    $(":checkbox#"+boxId).iphoneStyle({
+      onChange: function(elem, value) { 
+        log("enableIPhoneStyles-trigger", elem+", "+value);
+        setStatusImage(elem.attr("id"), 2);
+        switchSwitch(elem.attr("id"), (value == true ? 1 : 0), function(xmlhttp) { switchSwitched(xmlhttp.responseText); });
+      }
+    });
+  }
