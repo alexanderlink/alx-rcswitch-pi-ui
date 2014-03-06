@@ -9,7 +9,7 @@
 <a href="javascript:sendGet('switch')">GET</a><br>
 <a href="javascript:sendGet('switch', 'id=w1')">GET ID</a><br>
 <a href="javascript:sendPost('switch', 'json={shortId:w1, state:1}')">POST</a><br>
-<a href="javascript:switchSwitch('w1', 1)">PUT</a><br>
+<a href="javascript:switchSwitch('w1', 0)">PUT</a><br>
 
 </body>
 </html>

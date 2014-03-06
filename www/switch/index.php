@@ -27,7 +27,8 @@ include '../config.php.inc';
 
 $switches =array();
 foreach ($switchList as $i => $powerSwitch) {
-	$switches[$powerSwitch->shortId] = $powerSwitch;
+  $powerSwitch->state = shell_exec("cat ".$powerSwitch->shortId);
+  $switches[$powerSwitch->shortId] = $powerSwitch;
 }
 
 //$method =  $_SERVER['REQUEST_METHOD'];
@@ -45,6 +46,8 @@ $content = file_get_contents('php://input');
 
 if($content == "") $content = $json;
 
+
+
 if($method == "GET") {
   $id = "";
   if(isset($_GET["id"])) $id = $_GET["id"];
@@ -54,15 +57,17 @@ if($method == "GET") {
 	echo json_encode($switches);
   }
 	
+	
+	
 } else if($method == "PUT") {
   $targetSwitch = json_decode($content);
   $powerSwitch = $switches[$targetSwitch->shortId];
   $command = "sudo /home/pi/rcswitch-pi/send  ".$powerSwitch->homecode." ".$powerSwitch->groupcode." ".$powerSwitch->devicecode." ".$targetSwitch->state." 2>&1";
-  echo $command;
   $result = shell_exec($command);
-  shell_exec("echo ".$powerSwitch->state." > ".$targetSwitch->shortId);
-  return "xxx"+$result;
-
+  $powerSwitch->state = $targetSwitch->state;
+  shell_exec("echo ".$powerSwitch->state." > ".$powerSwitch->shortId);
+  echo json_encode($powerSwitch);
+  
 } else if($method == "POST") {
 	$powerSwitch = json_decode($content);
 	echo "Creating not supported yet";

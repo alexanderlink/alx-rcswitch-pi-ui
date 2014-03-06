@@ -30,13 +30,7 @@ function send(method, ready4Function, entity, params) {
   }
 }
 
-function sendGet(entity, params) {
-  var funct = function(xmlhttp) {
-  		alert("JSON : "+xmlhttp.responseText);
-		//var obj = JSON.parse(xmlhttp.responseText);
-		//alert(obj);
-		//alert(obj.w1.name);
-  }
+function sendGet(entity, params, funct) {
   send("GET", funct, entity, params);
 }
 
@@ -54,10 +48,7 @@ function sendPut(entity, params) {
   send("PUT", funct, entity, params);
 }
 
-function switchSwitch(shortId, state) {
-  var funct = function(xmlhttp) {
-  		alert("Switch response : "+xmlhttp.responseText);
-  };
-  var json = JSON.stringify({shortId:"w1", state:"1"});
+function switchSwitch(shortId, state, funct) {
+  var json = JSON.stringify({shortId:shortId, state:state});
   send("PUT", funct, "switch", "json="+json);
 }
