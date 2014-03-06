@@ -28,7 +28,18 @@
   
   <script language="javascript">
 
+  function enableIPhoneStyle(boxId) {
+    $(":checkbox#"+boxId).iphoneStyle({
+      onChange: function(elem, value) { 
+        log("enableIPhoneStyles-trigger", elem+", "+value);
+        setStatusImage(elem.attr("id"), 2);
+        switchSwitch(elem.attr("id"), (value == true ? 1 : 0), function(xmlhttp) { switchSwitched(xmlhttp.responseText); });
+      }
+    });
+  }
+  
   function renderSwitch(sw) {
+    log("renderSwitch", sw);
 	$("#switchTable").append(
 	"<tr><td>"+
 	"<img src='images/"+sw.room+".png'/>"+
@@ -37,58 +48,51 @@
 	"</td><td>"+
 	"<img id='"+sw.shortId+"_status' src='images/led_yellow.png'/>"+
 	"</td><td style='padding-right:10px; vertical-align:middle'>"+
-	"<input type='checkbox' id='"+sw.shortId+"' checked='checked' />"+
+	"<input type='checkbox' id='"+sw.shortId+"'/>"+
 	"</td></tr>"
 	);
+	enableIPhoneStyle(sw.shortId);
 	setStatusImage(sw.shortId, sw.state);
   }
   
   function setStatusImage(shortId, status) {
-  var checked = ""
-  if (status == 2) checked = "led_yellow.png"
-  if (status == 1) checked = "led_green.png"
-  if (status == 0) checked = "led_red.png"
-  $('#'+shortId+"_status").attr("src", "images/"+checked);
-  if(status == 1 || status == 0) {
-	//onchange_checkbox.prop('checked', !onchange_checkbox.is(':checked')).iphoneStyle("refresh");
-	var toggle = $('#'+shortId);
-	var toggleState = toggle.is(':checked');
-	if(status == 1 && !toggleState) {
-	  toggle.prop("checked", true).iphoneStyle("refresh");
-	}
-	if(status == 0 && toggleState) {
-	  toggle.prop("checked", false).iphoneStyle("refresh");
-	}
-  }
+    log("setStatusImage", "id:"+shortId+", status:"+status);
+    var checked = ""
+    if (status == 2) checked = "led_yellow.png"
+    if (status == 1) checked = "led_green.png"
+    if (status == 0) checked = "led_red.png"
+    $('#'+shortId+"_status").attr("src", "images/"+checked);
+    if(status == 1 || status == 0) {
+  	//onchange_checkbox.prop('checked', !onchange_checkbox.is(':checked')).iphoneStyle("refresh");
+	  var toggle = $('#'+shortId);
+	  var toggleState = toggle.is(':checked');
+	  if(status == 1 && !toggleState) {
+  	    toggle.prop("checked", true).iphoneStyle("refresh");
+	  } 
+	  if(status == 0 && toggleState) {
+	    toggle.prop("checked", false).iphoneStyle("refresh");
+	  }
+    }
   }
   
   function switchSwitched(switchJson){
+    log("switchSwitched", switchJson);
     var sw = JSON.parse(switchJson);
     setStatusImage(sw.shortId, sw.state);
   }
   
-  function enableIPhoneStyles() {
-    $(":checkbox").each(function(){
-    $(this).iphoneStyle({
-        onChange: function(elem, value) { 
-		  setStatusImage(elem.attr("id"), 2);
-          switchSwitch(elem.attr("id"), (value == true ? 1 : 0), function(xmlhttp) { switchSwitched(xmlhttp.responseText); });
-        }
-      });
-    });
-  }
-  
   function renderSwitches() {
+    log("renderSwitches");
 	sendGet("switch", "", function(xmlhttp) {
-		//alert(xmlhttp.responseText);
+		log("renderSwitches", xmlhttp.responseText);
 		var switches = JSON.parse(xmlhttp.responseText);
 		jQuery.each(switches, function(i, val) { renderSwitch(val); });
-		enableIPhoneStyles();
     });
   }
   
   
   $(document).ready(function() {
+    log("ready");
     renderSwitches();
   });
 

@@ -1,4 +1,21 @@
+debug = false;
+debugAreaCreated = false;
+  
+function log(functName, text) {
+  if(!debug) return;
+  if(!debugAreaCreated) {
+    $("body").append("<textarea cols='80' rows='20' id='debug'></textarea>");
+	debugAreaCreated = true;
+  }
+  if(text != "") {
+    $("#debug").prepend(functName+"() : "+text+"\n");
+  } else {
+    $("#debug").prepend(functName+"()\n");
+  }
+}
+
 function createRequest() {
+  log("createRequest");
   var xmlhttp;
   if (window.XMLHttpRequest)
     xmlhttp = new XMLHttpRequest();
@@ -8,6 +25,7 @@ function createRequest() {
 }
 
 function send(method, ready4Function, entity, params) {
+  log("send", method+", "+entity+", "+params);
   var xmlhttp = createRequest();
   xmlhttp.onreadystatechange = function() {
     if(xmlhttp.readyState == 4) {
@@ -36,19 +54,20 @@ function sendGet(entity, params, funct) {
 
 function sendPost(entity, params) {
   var funct = function(xmlhttp) {
-  		alert("Post : "+xmlhttp.responseText);
+    log("sendPost-result", entity+", "+params+": "+xmlhttp.responseText);
   };
   send("POST", funct, entity, params);
 }
 
 function sendPut(entity, params) {
   var funct = function(xmlhttp) {
-  		alert("PUT : "+xmlhttp.responseText);
+    log("sendPut-result", entity+", "+params+": "+xmlhttp.responseText);
   };
   send("PUT", funct, entity, params);
 }
 
 function switchSwitch(shortId, state, funct) {
+  log("switchSwitch", shortId+", "+state);
   var json = JSON.stringify({shortId:shortId, state:state});
   send("PUT", funct, "switch", "json="+json);
 }
