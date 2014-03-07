@@ -28,6 +28,8 @@
   
   <script language="javascript">
 
+  var automations;
+  
   function setStatusImage(shortId, status) {
     log("setStatusImage", "id:"+shortId+", status:"+status);
     var checked = ""
@@ -80,9 +82,27 @@
     });
   }
   
+  function switchSwitchTimeout(switchId, state, timer) {
+    setTimeout(function(){switchSwitch(switchId, state, function(xmlhttp){switchSwitched(xmlhttp.responseText);})}, timer);
+  }
+  
+  function clickAutomation(autoId) {
+    log("clickAutomation", autoId);
+	var auto = automations[autoId];
+    var timer = 0;
+	var sleep = 1000;
+	for (var i = 0; i < auto.switchArray.length; ++i) {
+	  var switchId = auto.switchArray[i];
+	  var state = auto.stateArray[i];
+      log("clickAutomation-switch", switchId+":"+state+" in "+timer);
+	  switchSwitchTimeout(switchId, state, timer);
+	  timer+=sleep;
+	}
+  }
+  
   function renderAutomation(auto) {
     log("renderAutomation", auto);
-	$("#automationRow").append("<td><a class='button' href='javascript:xxx()'>"+auto.name+"</a></td>");
+	$("#automationRow").append("<td><a class='button' href=\"javascript:clickAutomation('"+auto.id+"')\">"+auto.name+"</a></td>");
   }
   
   function renderAutomations() {
@@ -90,8 +110,8 @@
 	sendGet("switchAutomation", "", function(xmlhttp) {
 		log("renderAutomations", xmlhttp.responseText);
 		$("#switchTable").append("<tr><td colspan='4' align='center'><table><tr id='automationRow'></tr></table></td></tr>");
-		var switches = JSON.parse(xmlhttp.responseText);
-		jQuery.each(switches, function(i, val) { renderAutomation(val); });
+		automations = JSON.parse(xmlhttp.responseText);
+		jQuery.each(automations, function(i, val) { renderAutomation(val); });
     });
   }
   

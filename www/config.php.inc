@@ -32,15 +32,19 @@ $switchList = array(
 );
 
 $switchAutomationList = array(
-  SwitchAutomation::newAutomation("BedX",
+  SwitchAutomation::newAutomation("livingroom", "Livingroom",
+	array("w1", "w2", "w3", "s1", "s2", "k1"),
+	array(1, 1, 0, 0, 0, 0)
+  ), 
+  SwitchAutomation::newAutomation("bed", "Bed",
 	array("w1", "w2", "w3", "s1", "s2", "k1"),
 	array(0, 0, 0, 1, 1, 0)
   ), 
-  SwitchAutomation::newAutomation("SleepX",
+  SwitchAutomation::newAutomation("sleep", "Sleep",
 	array("w1", "w2", "w3", "s1", "s2", "k1"),
 	array(0, 0, 0, 0, 1, 0)
   ),
-  SwitchAutomation::newAutomation("All OffX",
+  SwitchAutomation::newAutomation("allOff", "All Off",
 	array("w1", "w2", "w3", "s1", "s2", "k1"),
 	array(0, 0, 0, 0, 0, 0)
   )  

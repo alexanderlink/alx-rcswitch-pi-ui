@@ -27,7 +27,7 @@ include '../config.php.inc';
 
 $automations=array();
 foreach ($switchAutomationList as $i => $automation) {
-  $automations[$automation->name] = $automation;
+  $automations[$automation->id] = $automation;
 }
 
 //$method =  $_SERVER['REQUEST_METHOD'];

@@ -4,13 +4,15 @@ debugAreaCreated = false;
 function log(functName, text) {
   if(!debug) return;
   if(!debugAreaCreated) {
-    $("body").append("<textarea cols='80' rows='20' id='debug'></textarea>");
+    $("body").append("<textarea cols='160' rows='20' id='debug'></textarea>");
 	debugAreaCreated = true;
   }
-  if(text != "") {
-    $("#debug").prepend(functName+"() : "+text+"\n");
+  var date = new Date();
+  var time = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+  if(typeof text === "undefined") {
+    $("#debug").prepend(time+" - "+functName+"()\n");
   } else {
-    $("#debug").prepend(functName+"()\n");
+    $("#debug").prepend(time+" - "+functName+"() : "+text+"\n");
   }
 }
 
@@ -68,16 +70,16 @@ function sendPut(entity, params) {
 
 function switchSwitch(shortId, state, funct) {
   log("switchSwitch", shortId+", "+state);
+  setStatusImage(shortId, 2);
   var json = JSON.stringify({shortId:shortId, state:state});
   send("PUT", funct, "switch", "json="+json);
 }
 
-  function enableIPhoneStyle(boxId) {
-    $(":checkbox#"+boxId).iphoneStyle({
-      onChange: function(elem, value) { 
-        log("enableIPhoneStyles-trigger", elem+", "+value);
-        setStatusImage(elem.attr("id"), 2);
-        switchSwitch(elem.attr("id"), (value == true ? 1 : 0), function(xmlhttp) { switchSwitched(xmlhttp.responseText); });
-      }
-    });
-  }
+function enableIPhoneStyle(boxId) {
+  $(":checkbox#"+boxId).iphoneStyle({
+    onChange: function(elem, value) { 
+      log("enableIPhoneStyles-trigger", elem+", "+value);
+      switchSwitch(elem.attr("id"), (value == true ? 1 : 0), function(xmlhttp) { switchSwitched(xmlhttp.responseText); });
+    }
+  });
+}
