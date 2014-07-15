@@ -179,8 +179,7 @@ function actionVorSchlafen() {
   schalte("w2", 0, timer+=sleep);
 }
 
-function actionSchlafen() {
-  var timer = 0;
+function actionSchlafen(timer) {
   schalte("s1", 0, timer+=sleep);
   schalte("s2", 1, timer+=sleep);
   schalte("w1", 0, timer+=sleep);
@@ -236,7 +235,7 @@ if(!file_exists("libs/")) {
   <table><tr><td>
 	<a class="button" href="javascript:actionVorSchlafen()">Bed</a>
   </td><td>	
-	<a class="button" href="javascript:actionSchlafen()">Sleep</a>
+	<a class="button" href="javascript:actionSchlafen(0)">Sleep</a>
   </td><td>
     <a class="button" href="javascript:actionAufstehen()">All Off</a> 
   </td></tr></table>
@@ -260,6 +259,15 @@ foreach ($switches as $i => $powerSwitch) {
 <?
 }
 ?>
+
+<tr><td colspan="4" align="center">
+  <table><tr><td>
+	<a class="button" href="javascript:actionSchlafen(1000*60)">Sleep in 1min</a>
+  </td><td>	
+	<a class="button" href="javascript:actionSchlafen(1000*60*5)">Sleep in 5min</a>
+  </td></tr></table>
+</td></tr>
+
 
 </table>
 
