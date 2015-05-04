@@ -2,7 +2,7 @@
 
 Control your RC switches from your Smartphone or any browser via a nice UI.
 [![Youtube](images/youtube.jpg)](http://www.youtube.com/watch?v=QJ_aKxP8cVo)
-
+sdfsdf
 ## Folder Structure
 
   **www**
@@ -135,11 +135,11 @@ Adjust the /var/www/config.php.inc and configure the codes of your switches.
 ### iphone-style-checkboxes
 
   https://github.com/tdreyno/iphone-style-checkboxes
-  Copyright/License: Copyright © 2009 Thomas Reynolds <me@tdreyno.com>, released under the MIT license*
+  Copyright/License: Copyright Â© 2009 Thomas Reynolds <me@tdreyno.com>, released under the MIT license*
 
 ### rcswitch-pi
 https://github.com/r10r/rcswitch-pi.git
-Copyright/License: Copyright (c) 2011 Suat Özgür.  All right reserved. / LGPL-2.1
+Copyright/License: Copyright (c) 2011 Suat Ã–zgÃ¼r.  All right reserved. / LGPL-2.1
 
 ### wiringPi
 git://git.drogon.net/wiringPi
